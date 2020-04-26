@@ -1,0 +1,148 @@
+@import "answers.css" (hover: hover); 
+@import "buttons.css";
+
+@import "frontPage.css" (hover: hover);
+@import "touchscreen.css" (hover: none);
+
+a {
+    color: darkseagreen;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+body {
+    font-family: Tahoma, Geneva, sans-serif;
+}
+
+@media only screen and (min-width: 500px) {
+    body {
+        background-color: darkseagreen;
+    }
+
+    #container {
+        background-color: gainsboro;
+        padding: 10px 20px;
+        max-width: 400px;
+        margin: 50px auto 70px auto;
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    body {
+        margin: 0;
+        background-color: gainsboro;
+    }
+
+    #container {
+        background-color: gainsboro;
+        padding: 20px 20px;
+        margin: 0;
+    }
+}
+
+h1, h2 {
+    font-weight: 300;
+    display: inline;
+}
+
+
+
+
+footer {
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    background-color: beige;
+    padding: 3px 20px 3px 0px;
+    text-align: right;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+
+#wstep {
+    padding-bottom: 20px;
+    margin-bottom: 0;
+    font-style: italic;
+    color: gray;
+}
+
+input[type=text] {
+    /*margin-bottom: 20px;*/
+    width: 100%;
+    padding: 12px 20px;
+    box-sizing: border-box;
+    border: none;
+    background-color: white;
+    color: grey;
+    border: solid 2px white;
+    
+}
+
+input[type=text]:focus {
+    border-color: #ffa3b1;
+}
+
+.szare {
+    color: gray;
+    font-size: small;
+    padding-right: 7px;
+}
+
+#formularz, #quizEnded  {
+    margin-top: 10px;
+}
+
+#poczatekQuizu, #formularz, #quizEnded {
+    margin-bottom: 10px;
+}
+
+#formularz {
+    overflow: hidden;
+}
+
+.nomarginup {
+    margin-top: 0;
+    color: #464646;
+}
+
+#clock_cont {
+    font-family: "Courier New", Courier, monospace;
+    text-align: center;
+    padding: 10px;
+    /*font-size: 1.5em;   */
+    font-weight: 200;
+    margin: 0;
+    float:right;
+}
+
+.errorstyle {
+    color: crimson;
+    font-size: smaller;
+}
+
+#wynik {
+    color: black;
+    font-size: larger;
+}
+
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 10px 0px;
+}
+  
+td, th {
+    border: solid 0.2px aliceblue;
+    padding: 10px;
+}
+  
+tr:nth-child(even) {
+    background-color: aliceblue;
+}
+
+.right {
+    padding: 10px;
+    float:right;
+}

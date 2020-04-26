@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Quiz</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="styles/main.css">
+</head>
+<body>
+    <div id="container">
+        <div id="poczatekQuizu">
+            <header>
+                <h1>Quiz</h1>
+            </header>
+            <p>
+                Wybierz quiz, który chciałbyś rozwiązać! Możesz przeczytać 
+                opis najeżdżając kursorem na właściwy quiz, a w wersji na urządzenia dotykowe 
+                opisy wyświetlą się tak czy inaczej!
+                Możesz też zobaczyć <a href="stats.html">statystyki</a>.
+            </p>
+
+            <form id="quizSelection"></form>
+
+            <button type="button" class="pinkbtn wide_button" id="btnStart">Start</button>
+        </div>
+
+        <form id="formularz" hidden>
+            <h1 id="tytulQuizu">Jakis tytul</h1>
+
+            <div id="clock_cont">
+                <span>00 00 00</span>
+            </div>
+            <p id="wstep">
+                Coś poszło nie tak.
+            </p>
+            <div id="pytanie">
+                <span class="szare">
+                    Pytanie 
+                    <span id="nrPytania"></span> 
+                    z 
+                    <span id="liczbaPytan"></span> 
+                </span>
+                <span id="trescPytania"> pytanie </span>
+            </div>
+            <p class="szare">
+                Za błędną odpowiedź możesz stracić 
+                <span id="kara"></span>
+                sekund.
+            </p>
+
+            <input type="text" id="ans" placeholder="Odpowiedź" autocomplete="off">
+            <p id="errorfield" class="errorstyle" hidden></p>
+            <div class="threebuttons">
+                <input type="button" id="btnHalt" value="×" class="redbtn">
+                <input type="button" id="btnPrev" value="Poprzednie" class="pinkbtn">
+                <input type="button" id="btnNext" value="Następne" class="pinkbtn">
+                <input type="button" id="btnExit" value="Stop" class="yelbtn" disabled>
+            </div>
+        </form>
+
+        <div id="quizEnded" hidden>
+            <p class="nomarginup">
+                Quiz się zakończył! Łączny wynik jest sumą czasu spędzonego nad quizem i kar za 
+                złe odpowiedzi na pytania.
+                Twój wynik to
+                <span id="wynik"></span> sekund. Gratulacje! Poniżej możesz zobaczyć swoje odpowiedzi.
+            </p>
+            <div id="answers"> </div>
+            <p class="nomarginup"> Możesz zapisać swój wynik na dwa sposoby: z odpowiedziami na 
+            pytania i z czasami jakie poświęciłeś na każdą odpowiedź, albo zapisać sam wynik. Możesz też wrócić 
+            do ekranu wyboru quizu bez zapisywania wyniku. </p>
+            <div class="groupButton">
+                <input type="button" id="btnSave1" value="Zapisz bez stat." class="pinkbtn">
+                <input type="button" id="btnSave2" value="Zapisz ze stat." class="pinkbtn">
+                <input type="button" id="btnRerun" value="×" class="pinkbtn">
+            </div>
+            
+        </div>
+    </div>
+    <footer>
+        W Drzewakowski
+    </footer>
+
+
+    <script type="module" src="script/main.js"></script>
+</body>
+</html>

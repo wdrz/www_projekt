@@ -1,0 +1,65 @@
+#quizSelection {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+    row-gap: 5px;
+}
+
+input[type="radio"] {
+    display: none;
+}
+
+#quizSelection label {
+    padding: 10px;
+    box-sizing: border-box;
+    background: linear-gradient(132deg, #808b5a, #5cad85);
+    min-height: 80px;
+    position: relative;
+}
+
+#quizSelection input[type="radio"]:checked+label{
+    background: linear-gradient(15deg, lightpink, #ffa3b1);
+}
+
+.popup {
+    display: block;
+    font-size: smaller;
+    font-style: italic;
+}
+
+#answers {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+
+    row-gap: 5px;
+}
+
+.answerDiv {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    background-color: beige;
+    position: relative;
+}
+
+#answers .answrong {
+    background-color: crimson;
+}
+
+#answers .anscorrect {
+    background-color: darkseagreen;
+}
+
+#answers .answerDiv:hover .popup {
+    display: inline;
+}
+
+.popup p {
+    padding: 1px;
+    margin: 0px;
+}
+
+#answers .popup {
+    width: 200px;
+}
