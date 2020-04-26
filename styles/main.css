@@ -1,8 +1,13 @@
-@import "answers.css" (hover: hover); 
+
 @import "buttons.css";
 
-@import "frontPage.css" (hover: hover);
-@import "touchscreen.css" (hover: none);
+@import "touchscreen.css";
+
+/*
+Alternatywny styl, problemy z wychodzeniem popupow poza ekran:
+@import "frontPage.css";
+@import "answers.css";
+*/
 
 a {
     color: darkseagreen;

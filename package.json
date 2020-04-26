@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "compile" : "tsc -t ES2016 .\\script\\stats.ts & tsc -t ES2016 .\\script\\main.ts"
+    "compile" : "tsc -t ES2016 .//script//stats.ts & tsc -t ES2016 .//script//main.ts"
   },
   "keywords": [],
   "author": "Witold Drzewakowski",
