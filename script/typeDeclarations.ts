@@ -5,7 +5,7 @@ const jsonQuizData: string = `[
         "wstep": "Prosty quiz: odejmowanie liczb",
         "zawartosc": [
             {"pytanie" : "2 + 2 = ?", "odpowiedz" : 4, "kara" : 5},
-            {"pytanie" : "1 + 3 = ?", "odpowiedz" : 1, "kara" : 10},
+            {"pytanie" : "1 + 3 = ?", "odpowiedz" : 4, "kara" : 10},
             {"pytanie" : "13 + 1 = ?", "odpowiedz" : 14, "kara" : 2}
         ]
     },

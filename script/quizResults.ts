@@ -24,7 +24,7 @@ import { QUIZES, AnswerToOne, Quiz, Result } from './typeDeclarations.js';
                 <p>Pytanie: ${numberOfQuestion + 1}</p>
                 <p>Twoja odpowiedź: ${userAnswer}</p>
                 <p>Poprawna odpowiedź: ${corrAnswer}</p>
-                <p>Kara: ${punishment} </p>
+                <p>Kara: ${punishment}s </p>
                 <p>Czas: ${time}s </p>
             </span>`;
             frame.className = "answerDiv answrong";
