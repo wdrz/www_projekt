@@ -1,6 +1,18 @@
-# Projekt 1 z przedmiotu Aplikacje WWW
+# Final project - course: WWW Applications
 Witold Drzewakowski
-kwiecień 2020
+April-June 2020
 
-Kompilacja:
- npm run compile
+Create database (can be run only once)
+```
+npm run createdb
+```
+
+Compile client-side js:
+```
+npm run compile
+```
+
+Run server
+```
+npm run start
+```

@@ -1,0 +1,30 @@
+extends layout
+
+block content
+  h1 Quiz
+  p 
+   | Wybierz quiz, który chciałbyś rozwiązać! Opisy quizów wraz z tytułami 
+   | wyświetlają się poniżej. 
+   | Twoim wynikiem będzie suma czasu poświęconego na rozwiązanie quizu i ewentualnych kar.
+   | Możesz też zobaczyć 
+   a(href="stats.html") statystyki
+   | .
+
+  p
+  | Uwaga, od kliknięcia przycisku "Start" zacznie być mierzony czas. Poruszaj się po
+  | quizie za pomocą wyświetlających się przycisków. Przycisk "Stop" aktywuje się gdy odpowiesz
+  | na wszystkie pytania. Powodzenia!
+
+  if quizes
+    #container
+      each quiz in quizes
+        div(class=`${quiz.points ? "solved" : "item"}` data-quiz-id=quiz.id) 
+          h2 #{quiz.title}
+          p #{quiz.intro}
+          if (quiz.points) 
+            p= `Quiz rozwiązany. Twój wynik: ${quiz.points}s`
+            a.startQuiz(href=`/quiz/${quiz.id}`) Szczegóły
+          else 
+            a.startQuiz(href=`/quiz/${quiz.id}`) Rozpocznij
+  else 
+    div Brak quizów do wyboru.

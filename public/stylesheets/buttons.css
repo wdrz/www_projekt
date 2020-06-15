@@ -1,0 +1,22 @@
+a.startQuiz {
+	display: block;
+	width: 100%;
+  padding: 5px 5px;
+  position: relative;
+  text-decoration: none;
+}
+
+.item a.startQuiz {
+	background-color: antiquewhite;
+	color: black;
+}
+
+.solved a.startQuiz {
+	background-color: white;
+	color: black;
+}
+
+a.startQuiz:hover {
+  background-color: gray;
+  cursor: pointer;
+}

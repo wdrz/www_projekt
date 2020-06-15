@@ -79,4 +79,5 @@ export function showResultsScreen(selectedQuizNumber : number, stats : AnswerToO
     document.getElementById("wynik").innerText = result.total.toString();
     document.getElementById("quizEnded").hidden = false;
     addListeners(resStats, result);
-}*/
+}*/ 
+//# sourceMappingURL=quizResults.js.map

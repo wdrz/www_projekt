@@ -1,0 +1,17 @@
+extends layout
+
+block user
+
+block content
+  form.frame(method="post" action="/login") 
+    input(type="hidden", name="_csrf", value=csrfToken)
+
+    label(for="username") User
+    input#username(type="text", name="username", autocomplete="off", value=username)
+
+    label(for="password") Password
+    input#password(type="password", name="password")
+
+    if error
+      p.redtext= error
+    input(type='submit', value="Login")

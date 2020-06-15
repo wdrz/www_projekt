@@ -25,4 +25,5 @@ Object.keys(localStorage).forEach((key) => {
         `;
         lista[dict[result.quizId]].appendChild(row);
     }
-});*/
+});*/ 
+//# sourceMappingURL=stats.js.map

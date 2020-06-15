@@ -1,49 +1,47 @@
-
 @import "buttons.css";
-
 @import "touchscreen.css";
 
-/*
-Alternatywny styl, problemy z wychodzeniem popupow poza ekran:
-@import "frontPage.css";
-@import "answers.css";
-*/
-
 a {
-    color: darkseagreen;
-    text-decoration: none;
-    cursor: pointer;
+  color: blue;
+  text-decoration: none;
+  cursor: pointer;
 }
 
 body {
-    font-family: Tahoma, Geneva, sans-serif;
-    font-size:16px;
+  font-family: Verdana, Geneva, sans-serif;
+  font-size: 14px;
+  margin: 40px;
+  background-color: whitesmoke;
+}
+
+#container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: auto;
+  gap: 20px 20px;
+  justify-items: stretch;
+  padding-top: 20px;
+}
+
+.item {
+  background-color: white;
+  top: auto;
+  padding: 40px;
+}
+
+.solved {
+  background-color: #d5ffd5;
+  color: grey;
+  top: auto;
+  padding: 40px;
 }
 
 @media only screen and (min-width: 500px) {
-    body {
-        background-color: darkseagreen;
-    }
 
-    #container {
-        background-color: gainsboro;
-        padding: 10px 20px;
-        max-width: 400px;
-        margin: 50px auto 70px auto;
-    }
 }
 
 @media only screen and (max-width: 500px) {
-    body {
-        margin: 0;
-        background-color: gainsboro;
-    }
 
-    #container {
-        background-color: gainsboro;
-        padding: 20px 20px;
-        margin: 0;
-    }
 }
 
 h1, h2 {
@@ -55,14 +53,14 @@ h1, h2 {
 
 
 footer {
-    position: fixed;
-    bottom: 0px;
-    left: 0px;
-    background-color: beige;
-    padding: 3px 20px 3px 0px;
-    text-align: right;
-    width: 100%;
-    box-sizing: border-box;
+  position: fixed;
+  bottom: 0px;
+  left: 0px;
+  background-color: beige;
+  padding: 3px 20px 3px 0px;
+  text-align: right;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 
@@ -73,7 +71,7 @@ footer {
     color: gray;
 }
 
-input[type=text] {
+input[type="text"], input[type="password"] {
     /*margin-bottom: 20px;*/
     width: 100%;
     padding: 12px 20px;
@@ -83,10 +81,6 @@ input[type=text] {
     color: grey;
     border: solid 2px white;
     
-}
-
-input[type=text]:focus {
-    border-color: #ffa3b1;
 }
 
 .szare {

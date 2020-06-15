@@ -1,0 +1,29 @@
+extends layout
+
+block content
+  div#data(hidden)=questions
+  form#formularz
+    input(type="hidden", name="_csrf", value=csrfToken)
+    h1#tytulQuizu=quiz.title
+    #clock_cont
+      span 00 00 00
+    p#wstep=quiz.intro
+    #pytanie
+      span.szare
+        | Pytanie 
+        span#nrPytania ?
+        |  z 
+        span#liczbaPytan=numOfQuestions
+      span#trescPytania pytanie
+    p.szare
+      | Za błędną odpowiedź możesz stracić 
+      span#kara ?
+      |  sekund.
+    input(type="text" id="ans" placeholder="Odpowiedź" autocomplete="off")
+    p#errorfield.errorstyle(hidden)
+    input(type="button" id="btnHalt" value="×" class="redbtn")
+    input(type="button" id="btnPrev" value="Poprzednie" class="pinkbtn")
+    input(type="button" id="btnNext" value="Następne" class="pinkbtn")
+    input(type="button" id="btnExit" value="Stop" class="yelbtn" disabled)
+
+  script(src="/static/scripts/quizNavigation.js")
