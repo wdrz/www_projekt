@@ -1,4 +1,4 @@
-import { AnswerToOne, Question, Quiz } from './typeDeclarations.js';
+import { AnswerToOne, Question } from './typeDeclarations.js';
 
 const QUESTS: Question[] = JSON.parse(document.getElementById("data").innerText);
 const STATS: AnswerToOne[] = new Array<AnswerToOne>(QUESTS.length);
@@ -18,15 +18,24 @@ const elTextField = document.getElementById("ans") as HTMLInputElement;
 const elExitButton = document.getElementById("btnExit") as HTMLInputElement;
 const elClock =  document.getElementById("clock_cont") as HTMLInputElement;
 
-let TOTAL_TIME : number = 0;
-const TIME : number = window.setInterval( () => {
+let TOTAL_TIME: number = 0;
+const TIME: number = window.setInterval(() => {
   STATS[QUESTION_ON_DISPLAY].timeSpent++;
   TOTAL_TIME++;
-  const hrs : string = ("0" + Math.floor(TOTAL_TIME / 3600).toString()).slice(-2);
-  const min : string = ("0" + Math.floor((TOTAL_TIME / 60) % 60).toString()).slice(-2);
-  const sec : string = ("0" + (TOTAL_TIME % 60).toString()).slice(-2);
-  elClock.innerText = `${hrs} ${min} ${sec}`;
-}, 1000);
+  elClock.innerText = `${
+    ("0" + Math.floor(TOTAL_TIME / 36000).toString()).slice(-2)
+  } ${
+    ("0" + Math.floor((TOTAL_TIME / 600) % 60).toString()).slice(-2)
+  } ${
+    ("0" + Math.floor((TOTAL_TIME / 10) % 60).toString()).slice(-2)
+  }`;
+}, 100);
+
+function prepareTimeStatsAsProcents() {
+  STATS.forEach((stat, i) => {
+    stat.timeSpent = Math.round(stat.timeSpent * 100 / TOTAL_TIME);
+  });
+}
 
 function showErrorMessage(message : string) : void {
   const erField = document.getElementById("errorfield") as HTMLElement;
@@ -122,8 +131,8 @@ function addListenersToForm() {
 function finishQuiz(): void {
   if (all_questions_anwered()) {
     if (!rememberCurrentAnswer()) return;
-    // console.log("Zamykam moduł udzielanie odpowiedzi");
     clearTimeout(TIME);
+    prepareTimeStatsAsProcents();
   }
 }
 
@@ -175,7 +184,7 @@ initChosenQuiz().then(() => {
       console.log("fetch successful");
       window.location.reload(true);
     } else {
-      showErrorMessage("Fetch nie powiódł się. Spróbuj ponownie");
+      showErrorMessage("Zapis nie powiódł się");
       console.log(res);
       console.log("fetch unsuccessful");
     }

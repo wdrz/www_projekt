@@ -62,6 +62,56 @@ export const loginWall = (req: express.Request, res: express.Response, next: exp
   }
 };
 
-export const changePassword = (req: express.Request, res: express.Response) => {
-  res.send("changing");
-};
+
+
+export class UserHandler {
+  db: sqlite.Database;
+
+  constructor(db: sqlite.Database) {
+    this.db = db;
+  }
+
+
+  changePassword (req: express.Request, res: express.Response): void {
+    // res.send("changing");
+    this.db.run(`BEGIN TRANSACTION`, (err) => {
+      if (err) {
+        console.log(err);
+        res.render('changePassword', {
+          user: req.session.login,
+          csrfToken: req.csrfToken(),
+          error: "Database error"
+        });
+        return;
+      }
+
+      check_credentials(this.db, req.session.login, req.body.password).then(() => {
+          this.db.run(`
+            UPDATE users
+            SET password = ?
+            WHERE username = ?;`, [crypto.SHA256(req.body.newpassword).toString(crypto.enc.Base64), req.session.login], (err2) => {
+              this.db.run(`END TRANSACTION`);
+              if (err2) {
+                console.log(err2);
+                res.render('changePassword', {
+                  user: req.session.login,
+                  csrfToken: req.csrfToken(),
+                  error: "Database error"
+                });
+              } else {
+                res.redirect("/");
+              }
+            });
+        }
+      ).catch(() => {
+        this.db.run(`END TRANSACTION`);
+        res.render('changePassword', {
+          user: req.session.login,
+          csrfToken: req.csrfToken(),
+          error: "Incorrect password"
+        });
+      });
+    });
+  }
+
+}

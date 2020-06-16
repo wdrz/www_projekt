@@ -8,6 +8,13 @@ export class QuizList {
   constructor(db: sqlite.Database) {
     this.#db = db;
   }
+/*
+  async query_db(): Promise<any> {
+    return new Promise<void>((resolve, reject) => {
+
+
+    }
+  }*/
 
   async add_question(quest : Question, quizId: number) : Promise<void> {
     return new Promise<void>((resolve, reject) => {
@@ -161,7 +168,7 @@ export class QuizList {
       this.#db.run(`
         INSERT INTO results (id, quiz_id, user_id, points, answers)
         VALUES (?, ?, ?, ?, ?);`,
-        [res.id, res.quizId, res.userId, res.points, res.stringStats], (err) => {
+        [res.id, res.quiz_id, res.user_id, res.points, res.answers], (err) => {
           if (err) {
             console.log(err);
             reject('DB Error: result could not be added');
@@ -174,9 +181,7 @@ export class QuizList {
   }
 
 
-  async submit_result(stats: AnswerToOne[], userId: number, quizId: number, serverMiliseconds: number) : Promise<void> {
-
-
+  async submit_result(stats: AnswerToOne[], userId: number, quizId: number, serverMiliseconds: number): Promise<void> {
     return new Promise<void>(async (resolve, reject) => {
       const quests: Question[] = await this.getQuestionsByQuizId(quizId, true);
       if (stats.length !== quests.length) {
@@ -205,15 +210,53 @@ export class QuizList {
       });
 
       for (const stat of stats) {
-        stat.timeSpent = stat.timeSpent * serverMiliseconds / clientTime;
+        stat.timeSpent = Math.round(stat.timeSpent * serverMiliseconds / clientTime);
       }
 
       const res: Result = {
         id: `${userId}&&&${quizId}`,
-        quizId, userId, points,
-        stringStats: JSON.stringify(stats)
+        quiz_id: quizId, user_id: userId, points,
+        answers: JSON.stringify(stats)
       };
       this.add_result(res).then(() => resolve()).catch(() => reject());
     });
   }
+
+  async getBestResultsToQuiz(quizId: number): Promise<Result[]> {
+    return new Promise<Result[]> ((resolve, reject) => {
+      this.#db.all(`
+        SELECT *
+        FROM results
+        LEFT JOIN users
+        ON results.user_id = users.id
+        WHERE quiz_id = ?
+        ORDER BY points ASC
+        LIMIT 5;`, [quizId], (err, rows) => {
+          if (err) {
+            console.log(err);
+            reject('DB Error getBestResultsToQuiz.');
+          } else {
+            resolve(rows);
+          }
+        });
+    });
+  }
+
+/*
+  async getDetails(quizId: number, userId: number): Promise<Result> {
+    return new Promise<Result> ((resolve, reject) => {
+      this.#db.all(`
+        SELECT *
+        FROM results
+        WHERE user_id = ?
+        AND quiz_id = ?;`, [userId, quizId], (err, rows) => {
+          if (err) {
+            console.log(err);
+            reject('DB Error getDetails.');
+          } else {
+            resolve(rows[0]);
+          }
+        });
+    });
+  }*/
 }

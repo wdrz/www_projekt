@@ -16,7 +16,6 @@ body {
 
 #container {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
   grid-template-rows: auto;
   gap: 20px 20px;
   justify-items: stretch;
@@ -27,6 +26,7 @@ body {
   background-color: white;
   top: auto;
   padding: 40px;
+  min-height: 180px;
 }
 
 .solved {
@@ -34,23 +34,115 @@ body {
   color: grey;
   top: auto;
   padding: 40px;
+  min-height: 180px;
 }
 
-@media only screen and (min-width: 500px) {
-
+.frameAdd {
+  /*background-color: white;*/
+  top: auto;
+  padding: 40px;
+  position: relative;
+  min-height: 180px;
+  border: 0.6px gray dashed;
 }
 
-@media only screen and (max-width: 500px) {
-
+.frameInsideAdd {
+  margin: auto;
+  width: 180px;
+  height: 180px;
+  position: absolute;
+  vertical-align: middle;
+  display: inline-block;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
-h1, h2 {
-    font-weight: 300;
-    display: inline;
+.horizontal {
+  background-color: #DFDAD7;
+  width: 60%;
+  height: 20px;
+  top: calc(50% - 10px);
+  left: 20%;
+  position: absolute;
+}
+.vertical {
+  background-color: #DFDAD7;
+  width: 20px;
+  height: 60%;
+  top: 20%;
+  left: calc(50% - 10px);
+  position: absolute;
 }
 
+.borderframe {
+  padding: 20px;
+  border: 0.6px solid black;
+  margin: 10px;
+}
 
+.redframe {
+  background-color: #ffcece;
+  color: black;
+}
 
+.greenframe {
+  background-color: #ceffc7;
+  color: black;
+}
+
+#user {
+  text-align: right;
+}
+
+@media only screen and (min-width: 1200px) {
+  #container {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
+}
+
+@media only screen and (max-width: 1200px) and (min-width: 900px) {
+  #container {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+
+@media only screen and (max-width: 900px) and (min-width: 550px) {
+  #container {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media only screen and (max-width: 550px) {
+  #container {
+    grid-template-columns: 1fr;
+  }
+}
+
+h1, h2, h3 {
+  font-weight: 300;
+}
+
+label {
+  padding: 10px;
+  display: inline-block;
+}
+
+#quizPoints {
+  text-align: center;
+  display: block;
+  padding: 40px;
+  border: 0.6px solid black;
+  font-weight: bold;
+  font-size: x-large;
+  margin-bottom: 20px;
+}
+
+.statQuizFrame {
+  border: 0.6px solid black;
+  padding: 20px;
+  margin: 10px 0px;
+}
 
 footer {
   position: fixed;
@@ -63,24 +155,31 @@ footer {
   box-sizing: border-box;
 }
 
-
 #wstep {
-    padding-bottom: 20px;
-    margin-bottom: 0;
-    font-style: italic;
-    color: gray;
+  padding-bottom: 20px;
+  margin-bottom: 0;
+  font-style: italic;
+  color: gray;
 }
 
-input[type="text"], input[type="password"] {
-    /*margin-bottom: 20px;*/
-    width: 100%;
-    padding: 12px 20px;
-    box-sizing: border-box;
-    border: none;
-    background-color: white;
-    color: grey;
-    border: solid 2px white;
-    
+input[type="text"], input[type="password"], textarea {
+  width: 100%;
+  padding: 12px 20px;
+  box-sizing: border-box;
+  border: none;
+  background-color: white;
+  color: grey;
+  margin: 3px;
+  display: block;
+  outline: none;
+  resize: none;
+  font-family: inherit;
+  font-size: small;
+}
+
+input[type="text"].smalltf {
+  width: 100px;
+  display: inline-block;
 }
 
 .szare {
@@ -89,6 +188,7 @@ input[type="text"], input[type="password"] {
     padding-right: 7px;
 }
 
+/*
 #formularz, #quizEnded  {
     margin-top: 10px;
 }
@@ -104,7 +204,7 @@ input[type="text"], input[type="password"] {
 .nomarginup {
     margin-top: 0;
     color: #464646;
-}
+}*/
 
 #clock_cont {
     font-family: "Courier New", Courier, monospace;
@@ -121,12 +221,14 @@ input[type="text"], input[type="password"] {
     font-size: smaller;
 }
 
+/*
+
 #wynik {
     color: black;
     font-size: larger;
 }
 
-
+*/
 table {
     border-collapse: collapse;
     width: 100%;
@@ -134,15 +236,15 @@ table {
 }
   
 td, th {
-    border: solid 0.2px aliceblue;
+    border: solid 0.2px grey;
     padding: 10px;
 }
   
 tr:nth-child(even) {
-    background-color: aliceblue;
+    background-color: white;
 }
-
+/*
 .right {
     padding: 10px;
     float:right;
-}
+}*/

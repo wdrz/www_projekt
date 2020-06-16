@@ -23,9 +23,9 @@ export interface AnswerToOne {
 
 export interface Result {
   id: string;
-  quizId: number;
-  userId: number;
+  quiz_id: number;
+  user_id: number;
   points: number;
-  stringStats : string;
+  answers : string;
 }
 

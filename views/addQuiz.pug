@@ -1,0 +1,24 @@
+extends layout
+
+block content
+  a(href='/') Wróć do listy quizów
+  h1 Nowy quiz
+  .statQuizFrame
+    form(action="", method="post")
+      input(type="hidden", name="_csrf", value=csrfToken)
+      label(for="title") Tytuł quizu
+      input(type="text" id="title" name="title")
+
+      label(for="intro") Opis quizu
+      textarea(id="intro" name="intro")
+
+      h2 Pytania
+      button#buttonAdd(type="button") Dodaj pytanie
+      button#buttonDel(type="button") Usuń ostatnie pytanie
+
+      #frame
+  input(type="submit" value="Dodaj quiz")
+      
+    
+  
+  script(src="/static/scripts/addQuiz.js")

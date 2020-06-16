@@ -4,7 +4,7 @@ import cookieParser from 'cookie-parser';
 import csurf from 'csurf';
 import { QuizList } from "./quizList";
 import sqlite from "sqlite3";
-import { attachDB, loginCheck, loginWall, changePassword } from "./login";
+import { attachDB, loginCheck, loginWall, UserHandler } from "./login";
 import { AnswerToOne, Result } from './definitions'
 
 
@@ -13,6 +13,7 @@ const secretkey = "a@3aFANp38ah"
 
 const db = new sqlite.Database('dataStorage.db');
 const ql = new QuizList(db);
+const uh = new UserHandler(db);
 
 async function run() : Promise<void> {
   const app = express();
@@ -55,17 +56,28 @@ async function run() : Promise<void> {
     res.render('changePassword', {user: req.session.login, csrfToken: req.csrfToken()});
   });
 
-  app.post("/change", csrfProtection, changePassword);
+  app.post("/change", csrfProtection, (req, res) => uh.changePassword(req, res));
 
   app.get("/", async (req, res) => {
-    res.render('front', {user: req.session.login, quizes: await ql.get_quizes(req.session.user_id)});
+    res.render('front', {
+      user: req.session.login,
+      quizes: await ql.get_quizes(req.session.user_id)
+    });
   });
 
   app.get("/quiz/:p1(\\w+)", async (req, res) => {
     const quizId = Number(req.params.p1);
     ql.getResult(quizId, req.session.user_id).then(
-      (row: Result) => res.json(row)
-    ).catch(() => {
+      async (row: Result) => {
+        res.render('stats', {
+          user: req.session.login,
+          quiz: await ql.getQuizById(quizId),
+          questions: await ql.getQuestionsByQuizId(quizId, true),
+          stats: await JSON.parse(row.answers),
+          bestResults: await ql.getBestResultsToQuiz(quizId),
+          results: row
+        });
+    }).catch(() => {
       ql.getQuizById(quizId).then(async (quiz) => {
         const questions = await ql.getQuestionsByQuizId(quizId, false);
         req.session.timeQuizStarted = Date.now();
@@ -77,9 +89,17 @@ async function run() : Promise<void> {
           csrfToken: req.csrfToken()
         });
       }).catch((err) => {
-        res.status(400);
-        res.end();
+        res.status(404);
+        res.send("404");
       });
+    });
+  });
+
+
+  app.get("/addquiz", async (req, res) => {
+    res.render('addQuiz', {
+      user: req.session.login,
+      csrfToken: req.csrfToken()
     });
   });
 
@@ -128,12 +148,6 @@ async function run() : Promise<void> {
       res.send("403");
     });
   });
-
-  /*
-  app.get("/quizlist", async (req, res) => {
-    res.json(JSON.stringify(await ql.get_quizes()));
-  });
-  */
 
   app.use((req, res, next) => {
     res.status(404);

@@ -15,11 +15,13 @@ let TOTAL_TIME = 0;
 const TIME = window.setInterval(() => {
     STATS[QUESTION_ON_DISPLAY].timeSpent++;
     TOTAL_TIME++;
-    const hrs = ("0" + Math.floor(TOTAL_TIME / 3600).toString()).slice(-2);
-    const min = ("0" + Math.floor((TOTAL_TIME / 60) % 60).toString()).slice(-2);
-    const sec = ("0" + (TOTAL_TIME % 60).toString()).slice(-2);
-    elClock.innerText = `${hrs} ${min} ${sec}`;
-}, 1000);
+    elClock.innerText = `${("0" + Math.floor(TOTAL_TIME / 36000).toString()).slice(-2)} ${("0" + Math.floor((TOTAL_TIME / 600) % 60).toString()).slice(-2)} ${("0" + Math.floor((TOTAL_TIME / 10) % 60).toString()).slice(-2)}`;
+}, 100);
+function prepareTimeStatsAsProcents() {
+    STATS.forEach((stat, i) => {
+        stat.timeSpent = Math.round(stat.timeSpent * 100 / TOTAL_TIME);
+    });
+}
 function showErrorMessage(message) {
     const erField = document.getElementById("errorfield");
     erField.innerText = message;
@@ -110,8 +112,8 @@ function finishQuiz() {
     if (all_questions_anwered()) {
         if (!rememberCurrentAnswer())
             return;
-        // console.log("Zamykam moduł udzielanie odpowiedzi");
         clearTimeout(TIME);
+        prepareTimeStatsAsProcents();
     }
 }
 function initChosenQuiz() {
@@ -158,7 +160,7 @@ initChosenQuiz().then(() => {
             window.location.reload(true);
         }
         else {
-            showErrorMessage("Fetch nie powiódł się. Spróbuj ponownie");
+            showErrorMessage("Zapis nie powiódł się");
             console.log(res);
             console.log("fetch unsuccessful");
         }

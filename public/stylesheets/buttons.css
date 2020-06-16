@@ -20,3 +20,25 @@ a.startQuiz:hover {
   background-color: gray;
   cursor: pointer;
 }
+
+button, input[type="submit"], input[type="button"] {
+	padding: 8px;
+	font-family: inherit;
+	font-size: small;
+	border: 1px solid;
+	cursor: pointer;
+	color: black;
+	margin: 3px;
+	background-color: beige;
+}
+
+button:hover, input[type="submit"]:hover, input[type="button"]:hover {
+	background-color: rgb(140, 167, 255);
+}
+
+
+button:disabled, input[type="submit"]:disabled, input[type="button"]:disabled {
+	background-color: gray;
+	cursor: unset;
+}
+
