@@ -1,0 +1,27 @@
+extends layout
+
+block content
+  - var n = 0;
+  a(href='/') Wróć do listy quizów
+
+  h1 Statystyki
+  while n < quizes.length
+    .statQuizFrame
+      h2= quizes[n].title
+      p= quizes[n].intro
+      - var k = 0;
+      if stats[n].length != 0
+        table
+          tr
+            th 
+            th Użytkownik
+            th Wynik
+          while k < stats[n].length
+            tr
+              td=k+1
+              td=stats[n][k].username
+              td=stats[n][k].points
+            - var k = k+1
+      else 
+        span Brak wyników.
+      - var n = n+1

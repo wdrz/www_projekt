@@ -99,7 +99,9 @@ export class UserHandler {
                   error: "Database error"
                 });
               } else {
-                res.redirect("/");
+                // OK!
+
+                res.redirect("/logoutall");
               }
             });
         }

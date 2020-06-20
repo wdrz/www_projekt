@@ -106,8 +106,8 @@ async function create_table_quizes(db: sqlite.Database) : Promise<void> {
   return new Promise<void>((resolve, reject) => {
     db.run(`CREATE TABLE quizes (
       id INTEGER PRIMARY KEY,
-      title TEXT,
-      intro TEXT);`, (err) => {
+      title TEXT NOT NULL UNIQUE,
+      intro TEXT NOT NULL);`, (err) => {
         if (err) {
           reject('DB Error wile creating table quizes');
         } else {
@@ -122,10 +122,10 @@ async function create_table_questions(db: sqlite.Database) : Promise<void> {
   return new Promise<void>((resolve, reject) => {
     db.run(`CREATE TABLE questions (
       id INTEGER PRIMARY KEY,
-      text TEXT,
-      answer INTEGER,
-      penalty INTEGER,
-      quiz_id INTEGER,
+      text TEXT NOT NULL,
+      answer INTEGER NOT NULL,
+      penalty INTEGER NOT NULL,
+      quiz_id INTEGER NOT NULL,
       FOREIGN KEY(quiz_id) REFERENCES quizes(id));`, (err) => {
         if (err) {
           reject('DB Error while creating table questions');
@@ -144,7 +144,6 @@ async function create_table_results(db: sqlite.Database) : Promise<void> {
       quiz_id INTEGER,
       user_id INTEGER,
       points INTEGER,
-      answers TEXT,
       FOREIGN KEY(quiz_id) REFERENCES quizes(id),
       FOREIGN KEY(user_id) REFERENCES users(id));`, (err) => {
         if (err) {
@@ -159,12 +158,37 @@ async function create_table_results(db: sqlite.Database) : Promise<void> {
 }
 
 
+async function create_table_answers(db: sqlite.Database) : Promise<void> {
+  return new Promise<void>((resolve, reject) => {
+    db.run(`CREATE TABLE answers (
+      id INTEGER PRIMARY KEY,
+      result_id TEXT,
+      question_id INTEGER,
+      quiz_id INTEGER,
+      timeSpent INTEGER,
+      answer INTEGER,
+      ok INTEGER,
+      FOREIGN KEY(result_id) REFERENCES results(id),
+      FOREIGN KEY(question_id) REFERENCES questions(id),
+      FOREIGN KEY(quiz_id) REFERENCES quiz(id));`, (err) => {
+        if (err) {
+          console.log(err);
+          reject('DB Error while creating table answers');
+        } else {
+          console.log("Table answers created.");
+          resolve();
+        }
+    });
+  });
+}
+
 async function createDB() : Promise<void> {
   const db : sqlite.Database = new sqlite.Database('dataStorage.db');
   await create_users(db);
   await create_table_quizes(db);
   await create_table_questions(db);
   await create_table_results(db);
+  await create_table_answers(db);
   const ql : QuizList = new QuizList(db);
   ql.add_quizes(quizData);
 

@@ -1,5 +1,15 @@
 import { AnswerToOne, Question } from './typeDeclarations.js';
 
+fetch(`${window.location.href}/json`, {
+  method: 'get',
+  headers: {
+    'Accept': 'application/json, text/plain, */*'
+  }
+}).then(async (response) => {
+
+const { questions: QUESTS2, quiz: QUIZ } = JSON.parse(await response.json());
+console.log(QUESTS2, QUIZ);
+
 const QUESTS: Question[] = JSON.parse(document.getElementById("data").innerText);
 const STATS: AnswerToOne[] = new Array<AnswerToOne>(QUESTS.length);
 
@@ -160,13 +170,13 @@ function initChosenQuiz() : Promise<void> {
       finishQuiz();
       resolve();
     });
-
-    document.getElementById("btnHalt").addEventListener("click", () => {
-      clearTimeout(TIME);
-      reject();
-    });
   });
 }
+
+document.getElementById("btnHalt").addEventListener("click", () => {
+  clearTimeout(TIME);
+  window.location.href = "/";
+});
 
 
 initChosenQuiz().then(() => {
@@ -190,3 +200,5 @@ initChosenQuiz().then(() => {
     }
   }).catch(() => console.log("fetch failed"))
   }).catch(() => window.location.href = "/");
+
+})

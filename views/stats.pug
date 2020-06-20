@@ -16,6 +16,10 @@ block content
           h2
             |!{stats[n].ok ? '&#x2714;' : "&#x2718;"} Pytanie #{n + 1}
           p Treść pytania: #{questions[n].text}
+          if questions[n].avg_time
+            p Średni czas poprawnej odpowiedzi: #{Math.floor(questions[n].avg_time / 100)/10}s
+          else
+            p Nikt nie udzielił jeszcze poprawnej odpowiedzi.
           p Twoja odpowiedź: #{stats[n].answer}
           p Czas odpowiedzi: #{Math.floor(stats[n].timeSpent / 100)/10}s
           if !stats[n].ok

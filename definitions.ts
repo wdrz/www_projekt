@@ -3,21 +3,21 @@ export interface Question {
   answer: number;
   penalty: number;
   id?: number;
+  quizId?: number;
 }
 
 export interface Quiz {
-  id: number;
+  id?: number;
   title: string;
   intro: string;
   content?: Question[];
-  points?: number;
 }
 
 export interface AnswerToOne {
   questionId: number;
   answer: number;
   timeSpent: number;
-  ok?: boolean;
+  ok?: number;
   correctAnswer?: number;
 }
 
@@ -26,6 +26,5 @@ export interface Result {
   quiz_id: number;
   user_id: number;
   points: number;
-  answers : string;
 }
 
