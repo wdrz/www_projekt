@@ -2,39 +2,39 @@ extends layout
 
 block content
   - var n = 0;
-  a(href='/') Wróć do listy quizów
+  a(href='/') Back to quiz list
 
-  h1 Wynik quizu
-  #quizPoints=`Twój wynik: ${results.points}s`
+  h1 Quiz results
+  #quizPoints=`Your score: ${results.points}s`
 
   .statQuizFrame
-    h1#tytulQuizu=quiz.title
+    h2#tytulQuizu=quiz.title
     p#wstep=quiz.intro
     div
       while n < questions.length
         div(class=`borderframe ${stats[n].ok ? "greenframe" : "redframe"}`)
-          h2
-            |!{stats[n].ok ? '&#x2714;' : "&#x2718;"} Pytanie #{n + 1}
-          p Treść pytania: #{questions[n].text}
+          h3
+            |!{stats[n].ok ? '&#x2714;' : "&#x2718;"} Question #{n + 1}
+          p Question statement: #{questions[n].text}
           if questions[n].avg_time
-            p Średni czas poprawnej odpowiedzi: #{Math.floor(questions[n].avg_time / 100)/10}s
+            p Average time of correct answer: #{Math.floor(questions[n].avg_time / 100)/10}s
           else
-            p Nikt nie udzielił jeszcze poprawnej odpowiedzi.
-          p Twoja odpowiedź: #{stats[n].answer}
-          p Czas odpowiedzi: #{Math.floor(stats[n].timeSpent / 100)/10}s
+            p This question wasn't answered yet!
+          p Your answer: #{stats[n].answer}
+          p Your time: #{Math.floor(stats[n].timeSpent / 100)/10}s
           if !stats[n].ok
-            p=`Poprawna odpowiedź: ${questions[n].answer}`
-            p=`Kara: ${questions[n].penalty}s`
+            p=`Correct answer: ${questions[n].answer}`
+            p=`Penalty: ${questions[n].penalty}s`
           - var n = n+1
   .statQuizFrame
-    h1 Najlepsze wyniki
+    h1 Best scores
     - var n = 0;
     if bestResults
       table
         tr
           th 
-          th Użytkownik
-          th Wynik
+          th User
+          th Score
         while n < bestResults.length
           tr
             td=n+1
@@ -42,4 +42,4 @@ block content
             td=bestResults[n].points
           - var n = n+1
     else 
-      span Brak wyników.
+      span No results yet.

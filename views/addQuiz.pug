@@ -1,29 +1,29 @@
 extends layout
 
 block content
-  a(href='/') Wróć do listy quizów
-  h1 Nowy quiz
+  a(href='/') Back to quiz list
+  h1 New quiz
   
   form#form(action="", method="post")
     .statQuizFrame
       input(type="hidden", name="_csrf", value=csrfToken)
       input#numberOfQuestions(type="hidden", name="numberOfQuestions", value="1")
-      label(for="title") Tytuł quizu
+      label(for="title") Quiz title
       input(type="text" id="title" name="title")
 
-      label(for="intro") Opis quizu
+      label(for="intro") Quiz description
       textarea(id="intro" name="intro")
 
-      h2 Pytania
-      button#buttonAdd(type="button") Dodaj pytanie
-      button#buttonDel(type="button") Usuń ostatnie pytanie
+      h2 Questions
+      button#buttonAdd(type="button") Add question
+      button#buttonDel(type="button") Remove last question
 
       #frame
     
     if error
       p.redtext= error
     p#ermessage.redtext(hidden)
-    input(type="submit" value="Dodaj quiz")
+    input(type="submit" value="Add quiz")
       
     
   

@@ -1,4 +1,4 @@
-import { Capabilities, Key, By, WebDriver } from 'selenium-webdriver';
+import { WebDriver, Builder } from 'selenium-webdriver';
 import { expect } from 'chai';
 import { driver } from 'mocha-webdriver';
 
@@ -22,7 +22,7 @@ async function logout() {
 }
 
 async function assert_logged_in() {
-  expect(await driver.find("#instructions").getText()).to.contain("Wybierz quiz, który chciałbyś rozwiązać");
+  expect(await driver.find("#instructions").getText()).to.contain("Select a quiz you wish to solve");
 }
 
 async function assert_logged_in_as_user(login: string) {
@@ -40,8 +40,24 @@ async function change_password({oldpassword, newpassword}: {oldpassword: string,
   await driver.find('#newpassword').doClear().doSendKeys(newpassword);
   await driver.find('input[type=submit]').doClick();
 }
-/*
-describe('many_sessions_handling_test', async () => {
+
+async function fill_quiz(numberOfQuestions: number, waitOnFirst: boolean, drv: WebDriver) {
+  const exit = await drv.find("#btnExit");
+  const next = await drv.find("#btnNext");
+
+  for (let i: number = 0; i < numberOfQuestions; i++) {
+    if (i === 0 && waitOnFirst) {
+      await drv.sleep(2200);
+    }
+    await drv.find("[type='text']").doSendKeys(i.toString());
+    if (i !== numberOfQuestions - 1) {
+      await next.doClick();
+    }
+  }
+  await exit.doClick();
+}
+
+describe('password_change_test', async () => {
   const sessions: client[] = [
     ...new Array(4).fill({
       login: "user1",
@@ -119,11 +135,13 @@ describe('many_sessions_handling_test', async () => {
     await assert_logged_out();
   });
 })
-*/
+
 
 describe('solve_quiz_test', async () => {
   const credentials = {login: "user2", password: "user2"};
   let numberOfQuestions: number;
+  let driver2: WebDriver;
+  let url: string;
 
   it("logs in", async function() {
     this.timeout(10000);
@@ -133,36 +151,35 @@ describe('solve_quiz_test', async () => {
 
   it("chooses a first unsolved quiz and starts it", async function() {
     this.timeout(20000);
-    const element = await driver.findContent("a", "Rozpocznij");
-    driver.executeScript("arguments[0].scrollIntoView()", element);
+    await driver.sleep(2000);
+    const element = await driver.findContent("a", "Start");
+    await driver.executeScript("arguments[0].scrollIntoView()", element);
     await element.doClick();
     await driver.find("[type='text']").value();
+
+    // clone driver
+    driver2 = new Builder().forBrowser("firefox").build();
+    await driver2.get(mainPath);
+    driver2.manage().addCookie({
+      name: 'connect.sid',
+      value: (await driver.manage().getCookie('connect.sid')).value
+    });
+    url = await driver.getCurrentUrl();
+    driver2.get(url);
   });
 
-  it("it solves a quiz", async function() {
+  it("solves a quiz", async function() {
     this.timeout(40000);
+
     numberOfQuestions = Number(await driver.find("#liczbaPytan").getText());
     expect(numberOfQuestions).to.not.be.an('undefined');
     expect(numberOfQuestions).to.be.greaterThan(0);
-
-    const exit = await driver.find("#btnExit");
-    const next = await driver.find("#btnNext");
-
-    for (let i: number = 0; i < numberOfQuestions; i++) {
-      if (i === 0) {
-        await driver.sleep(2200);
-      }
-      await driver.find("[type='text']").doSendKeys(i.toString());
-      if (i !== numberOfQuestions - 1) {
-        await next.doClick();
-      }
-    }
-    await exit.doClick();
+    await fill_quiz(numberOfQuestions, true, driver);
   });
 
-  it("inspects time statistics", async function() {
+  it("checks if time statistics match the time spent at each question", async function() {
     this.timeout(20000);
-    const regex: RegExp = new RegExp(/Czas odpowiedzi: (\d+)(\.\d+)?s/g);
+    const regex: RegExp = new RegExp(/Your time: (\d+)(\.\d+)?s/g);
     const page = await driver.find('body').getText();
 
     for (let i: number = 0; i < numberOfQuestions; i++) {
@@ -173,5 +190,21 @@ describe('solve_quiz_test', async () => {
         expect(match[1]).to.equal("0");
       }
     }
+  });
+
+  it(`solves previously loaded, very same quiz 2nd time and ensures server will not accept the results`, async function() {
+    this.timeout(40000);
+
+    await fill_quiz(numberOfQuestions, false, driver2);
+    expect(await driver2.find("body").getText()).to.contain("User is not allowed");
+
+    driver2.close();
+  });
+
+  it(`follows url that was used to start a quiz, but now it is a result screen`, async function() {
+    this.timeout(40000);
+
+    await driver.get(url);
+    await driver.findContent("h1", "Quiz results");
   });
 })

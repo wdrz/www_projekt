@@ -1,4 +1,4 @@
-import { AnswerToOne, Question } from './typeDeclarations.js';
+import { AnswerToOne } from './typeDeclarations.js';
 
 fetch(`${window.location.href}/json`, {
   method: 'get',
@@ -7,10 +7,15 @@ fetch(`${window.location.href}/json`, {
   }
 }).then(async (response) => {
 
-const { questions: QUESTS2, quiz: QUIZ } = JSON.parse(await response.json());
-console.log(QUESTS2, QUIZ);
+const { questions: QUESTS, quiz: QUIZ, login: LOGIN } = JSON.parse(await response.json());
+console.log(QUESTS, QUIZ);
 
-const QUESTS: Question[] = JSON.parse(document.getElementById("data").innerText);
+document.getElementById("liczbaPytan").innerText = QUESTS.length.toString();
+document.getElementById("title").innerText = QUIZ.title;
+document.getElementById("intro").innerText = QUIZ.intro;
+document.getElementById("login").innerText = LOGIN;
+
+// const QUESTS: Question[] = JSON.parse(document.getElementById("data").innerText);
 const STATS: AnswerToOne[] = new Array<AnswerToOne>(QUESTS.length);
 
 function initStats(): void {
@@ -189,13 +194,14 @@ initChosenQuiz().then(() => {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(STATS)
-  }).then((res) => {
+  }).then(async (res) => {
     if (res.ok) {
       console.log("fetch successful");
       window.location.reload(true);
     } else {
-      showErrorMessage("Zapis nie powiódł się");
+      showErrorMessage(await res.text());
       console.log(res);
+      // console.log(await res.text());
       console.log("fetch unsuccessful");
     }
   }).catch(() => console.log("fetch failed"))

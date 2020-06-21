@@ -5,60 +5,79 @@ import {QuizList} from './quizList';
 
 const quizData : Quiz[] = [
   {
-      "id" : 1,
-      "title": "Odejmowanie",
-      "intro": "Prosty quiz: odejmowanie liczb",
-      "content": [
-          {"text" : "2 + 2 = ?", "answer" : 4, "penalty" : 5},
-          {"text" : "1 + 3 = ?", "answer" : 4, "penalty" : 10},
-          {"text" : "13 + 1 = ?", "answer" : 14, "penalty" : 2}
-      ]
+    "id" : 1,
+    "title": "Very important quiz",
+    "intro": "This is truly the most difficult quiz of all",
+    "content": [
+        {"text" : "How many degrees has an over-educated circle?", "answer" : 360, "penalty" : 1000},
+        {"text" : "Why was six afraid of seven?", "answer" : 789, "penalty" : 1000},
+        {"text" : "At how many degrees you should put a cake in the oven?", "answer" : 0, "penalty" : 1000}
+    ]
   },
   {
-      "id" : 2,
-      "title": "Dodawanie",
-      "intro": "Prosty quiz: dodawanie liczb",
-      "content": [
-          {"text" : "3 - 3 = ?", "answer" : 0, "penalty" : 1},
-          {"text" : "14 - 1 = ?", "answer" : 13, "penalty" : 10},
-          {"text" : "20 - 9 = ?", "answer" : 11, "penalty" : 2},
-          {"text" : "3 - 2 = ?", "answer" : 1, "penalty" : 1},
-          {"text" : "14 - 1 = ?", "answer" : 13, "penalty" : 10},
-          {"text" : "20 - 9 = ?", "answer" : 11, "penalty" : 2}
-      ]
+    "id" : 2,
+    "title": "Addition",
+    "intro": "This is an easy quiz: add numbers as fast as you can!",
+    "content": [
+      {"text" : "2 + 2 = ?", "answer" : 4, "penalty" : 5},
+      {"text" : "4 + 3 = ?", "answer" : 7, "penalty" : 10},
+      {"text" : "5 + 1 = ?", "answer" : 6, "penalty" : 2}
+    ]
   },
   {
-      "id" : 3,
-      "title": "Mnożenie",
-      "intro": "Prosty quiz: mnożenie liczb. Musisz odpowiedzieć na wszystkie pytania!",
-      "content": [
-          {"text" : "3 ⋅ 3 = ?", "answer" : 9, "penalty" : 1},
-          {"text" : "14 ⋅ 1 = ?", "answer" : 14, "penalty" : 10},
-          {"text" : "20 ⋅ 9 = ?", "answer" : 180, "penalty" : 5},
-          {"text" : "1 ⋅ 9 = ?", "answer" : 9, "penalty" : 10}
-      ]
+    "id" : 3,
+    "title": "Subtraction",
+    "intro": "Can you solve this?",
+    "content": [
+      {"text" : "3 - 3 = ?", "answer" : 0, "penalty" : 1},
+      {"text" : "14 - 1 = ?", "answer" : 13, "penalty" : 10},
+      {"text" : "20 - 9 = ?", "answer" : 11, "penalty" : 2},
+      {"text" : "3 - 2 = ?", "answer" : 1, "penalty" : 1},
+      {"text" : "14 - 1 = ?", "answer" : 13, "penalty" : 10},
+      {"text" : "20 - 9 = ?", "answer" : 11, "penalty" : 2}
+    ]
   },
   {
-      "id" : 4,
-      "title": "Mnożenie 2",
-      "intro": "Prosty quiz: mnożenie liczb. Musisz odpowiedzieć na wszystkie pytania!",
-      "content": [
-          {"text" : "3 ⋅ 3 = ?", "answer" : 9, "penalty" : 1},
-          {"text" : "14 ⋅ 1 = ?", "answer" : 14, "penalty" : 10},
-          {"text" : "20 ⋅ 9 = ?", "answer" : 180, "penalty" : 5},
-          {"text" : "1 ⋅ 9 = ?", "answer" : 9, "penalty" : 10}
-      ]
+    "id" : 4,
+    "title": "Multiplication I",
+    "intro": "You need to answer all questions!",
+    "content": [
+      {"text" : "3 ⋅ 3 = ?", "answer" : 9, "penalty" : 1},
+      {"text" : "14 ⋅ 1 = ?", "answer" : 14, "penalty" : 10},
+      {"text" : "20 ⋅ 9 = ?", "answer" : 180, "penalty" : 5},
+      {"text" : "1 ⋅ 9 = ?", "answer" : 9, "penalty" : 10}
+    ]
   },
   {
-      "id" : 5,
-      "title": "Mnożenie 3",
-      "intro": "Prosty quiz: mnożenie liczb. Musisz odpowiedzieć na wszystkie pytania!",
-      "content": [
-          {"text" : "1 ⋅ 3 = ?", "answer" : 3, "penalty" : 1},
-          {"text" : "14 ⋅ 1 = ?", "answer" : 14, "penalty" : 10},
-          {"text" : "20 ⋅ 9 = ?", "answer" : 180, "penalty" : 5},
-          {"text" : "1 ⋅ 9 = ?", "answer" : 9, "penalty" : 10}
-      ]
+    "id" : 5,
+    "title": "Multiplication II",
+    "intro": "Second multiplication quiz.",
+    "content": [
+      {"text" : "3 ⋅ 3 = ?", "answer" : 9, "penalty" : 1},
+      {"text" : "14 ⋅ 1 = ?", "answer" : 14, "penalty" : 10},
+      {"text" : "20 ⋅ 9 = ?", "answer" : 180, "penalty" : 5},
+      {"text" : "1 ⋅ 9 = ?", "answer" : 9, "penalty" : 10}
+    ]
+  },
+  {
+    "id" : 6,
+    "title": "Multiplication III",
+    "intro": "Third multiplication quiz!",
+    "content": [
+      {"text" : "1 ⋅ 3 = ?", "answer" : 3, "penalty" : 1},
+      {"text" : "14 ⋅ 1 = ?", "answer" : 14, "penalty" : 10},
+      {"text" : "20 ⋅ 9 = ?", "answer" : 180, "penalty" : 5},
+      {"text" : "1 ⋅ 9 = ?", "answer" : 9, "penalty" : 10}
+    ]
+  },
+  {
+    "id" : 7,
+    "title": "Large numbers",
+    "intro": "Add them up!",
+    "content": [
+      {"text" : "234 + 123", "answer" : 357, "penalty" : 5},
+      {"text" : "9900 + 10", "answer" : 9910, "penalty" : 5}
+    ]
   }
 ]
 

@@ -14,14 +14,14 @@ function addQuestion() {
   div.classList.add("borderframe");
   div.id = `frame${counter}`;
   div.innerHTML = `
-    <h3> Pytanie ${counter + 1} </h3>
-    <label for="quest${counter}">Treść pytania</label>
+    <h3> Question ${counter + 1} </h3>
+    <label for="quest${counter}">Statement</label>
     <input type="text" id="quest${counter}" name="quest${counter}">
 
-    <label for="answ${counter}">Odpowiedź</label>
+    <label for="answ${counter}">Answer</label>
     <input class="smalltf" type="text" id="answ${counter}" name="answ${counter}">
 
-    <label for="pena${counter}">Kara</label>
+    <label for="pena${counter}">Penalty</label>
     <input class="smalltf" type="text" id="pena${counter}" name="pena${counter}">
   `;
   frame.appendChild(div);

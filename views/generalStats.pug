@@ -2,9 +2,9 @@ extends layout
 
 block content
   - var n = 0;
-  a(href='/') Wróć do listy quizów
+  a(href='/') Back to quiz list
 
-  h1 Statystyki
+  h1 General statistics
   while n < quizes.length
     .statQuizFrame
       h2= quizes[n].title
@@ -14,8 +14,8 @@ block content
         table
           tr
             th 
-            th Użytkownik
-            th Wynik
+            th User
+            th Score
           while k < stats[n].length
             tr
               td=k+1
@@ -23,5 +23,5 @@ block content
               td=stats[n][k].points
             - var k = k+1
       else 
-        span Brak wyników.
+        span No results yet.
       - var n = n+1

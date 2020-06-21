@@ -141,25 +141,6 @@ export class QuizList {
     });
   }
 
-  async hasUserNotSolvedAQuiz(quizId: number, userId: number): Promise<void> {
-    return new Promise<void> ((resolve, reject) => {
-      this.#db.all(`
-        SELECT * FROM results WHERE user_id = ? AND quiz_id = ?;`, [userId, quizId], (err, rows) => {
-          console.log("ROWS");
-          console.log(rows);
-          console.log(quizId, userId);
-          if (err) {
-            console.log(err);
-            reject('DB Error hasUserNotSolvedAQuiz.');
-          } else if (rows.length === 0) {
-            resolve();
-          } else {
-            reject();
-          }
-        });
-    });
-  }
-
   async getResult(quizId: number, userId: number): Promise<Result> {
     return new Promise<Result> ((resolve, reject) => {
       this.#db.all(`
@@ -183,17 +164,11 @@ export class QuizList {
     });
   }
 
-  async canBeAccessed(quizId: number, userId: number): Promise<[Quiz, Question[]]> {
-    return new Promise<[Quiz, Question[]]> ((resolve, reject) => {
-      this.hasUserNotSolvedAQuiz(quizId, userId).then(
-        () => this.getQuizById(quizId)
-      ).then(
-        async (quiz) => {
-          resolve([quiz, await this.getQuestionsByQuizId(quizId, false)])
-        }
-      ).catch(
-        () => reject()
-      )
+  async canBeAccessed(quizId: number, userId: number): Promise<void> {
+    return new Promise<void> ((resolve, reject) => {
+      this.getQuizById(quizId).then(() =>
+        this.getResult(quizId, userId).then(reject).catch(resolve)
+      ).catch(reject);
     });
   }
 

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Quiz</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="/static/stylesheets/main.css">
+  </head>
+  <body>
+    <div id="user">user: <span id="login"> </span> &#8226; 
+      <a href="/logout">logout</a> &#8226; 
+      <a href="/change">change password</a>
+    </div>
+    <h1>Quiz</h1>
+    <p id="instructions">
+      Select a quiz you wish to solve! Quiz titles and their descriptions are presented below.
+      Your score will be the sum of the time it will take you to finish a quiz and penalties, which you 
+      may be charged if you provide wrong answers. You can see general statistics <a href="stats">here</a>.
+    </p>
+    <p>
+      Beware, after clicking a button "Start", timer will start running. Navigate the quiz using navigation buttons.
+      You can resign by clicking "x" button. Button "Finish" will be activated after you provide each question with
+      a numeric answer. Good luck!
+    </p>
+    <p>
+      You can now add your own quiz, which other users will be allowed to see and solve. Click a big add sign to
+      try this option!
+    </p>
+    <div id="container">    
+      <a id="frameAdd" href="/addquiz">
+        <div class="frameInsideAdd">
+          <div class="horizontal"></div>
+          <div class="vertical"></div>
+        </div>
+      </a>
+    </div>
+    <script src="/static/scripts/frontPage.js"></script>
+    <footer>Witold Drzewakowski</footer>
+  </body>
+</html>

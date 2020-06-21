@@ -1,4 +1,5 @@
 import express from "express";
+import path from "path";
 import session from 'express-session';
 import cookieParser from 'cookie-parser';
 import csurf from 'csurf';
@@ -89,21 +90,30 @@ async function run() : Promise<void> {
   });
 
   app.get("/", async (req, res) => {
-    res.render('front', {
-      user: req.session.login,
-      quizes: await ql.get_quizes(req.session.user_id)
-    });
+    res.sendFile(path.resolve('html', 'frontPage.html'));
   });
+
+  app.get("/quizlist", async (req, res) => {
+    res.json(JSON.stringify({
+      login: req.session.login,
+      quizes: await ql.get_quizes(req.session.user_id)
+    }));
+  });
+
 
   app.get("/quiz/:p1(\\w+)/json", async (req, res) => {
     const quizId = Number(req.params.p1);
     ql.getResult(quizId, req.session.user_id).then(() => {
-      res.status(404);
-      res.send("404");
+      res.status(403);
+      res.send("403");
     }).catch(async () => {
       const questions = await ql.getQuestionsByQuizId(quizId, false);
-      const quiz = await ql.getQuizById(quizId)
-      res.json(JSON.stringify({questions, quiz}));
+      const quiz = await ql.getQuizById(quizId);
+      req.session.timeQuizStarted = Date.now();
+      res.json(JSON.stringify({questions, quiz, login: req.session.login}));
+    }).catch(() => {
+      res.status(404);
+      res.send("404");
     });
   });
 
@@ -121,19 +131,12 @@ async function run() : Promise<void> {
           results: row
         });
     }).catch(() => {
-      ql.getQuizById(quizId).then(async (quiz) => {
-        const questions = await ql.getQuestionsByQuizId(quizId, false);
-        req.session.timeQuizStarted = Date.now();
-        res.render('quiz', {
-          quiz,
-          questions: JSON.stringify(questions),
-          numOfQuestions: questions.length,
-          user: req.session.login,
-          csrfToken: req.csrfToken()
-        });
+      ql.getQuizById(quizId).then(async _ => {
+        res.sendFile(path.resolve('html', 'quizscreen.html'));
       }).catch((err) => {
+        console.log(err);
         res.status(404);
-        res.send("404");
+        res.send(err);
       });
     });
   });
@@ -189,7 +192,7 @@ async function run() : Promise<void> {
 
   app.post("/quiz/:p1(\\w+)", async (req, res) => {
     console.log("RECEIVED DATA");
-    ql.canBeAccessed(Number(req.params.p1), req.session.login).then(([quiz, questions]) => {
+    ql.canBeAccessed(Number(req.params.p1), req.session.user_id).then(() => {
       console.log("RECEIVED DATA quiz " + req.params.p1);
       console.log(JSON.stringify(req.body));
       try {
@@ -198,20 +201,19 @@ async function run() : Promise<void> {
           Date.now() - req.session.timeQuizStarted).then(() => {
             res.status(204);
             res.end();
-          }).catch(() => {
+          }).catch((err) => {
             res.status(403);
-            console.log("tu");
-            res.end();
+            res.send("Db query error: " + err);
           })
       } catch (err) {
         if (err instanceof TypeError) {
           res.status(400);
-          res.end();
+          res.send("Incorrect data format");
         }
       }
     }).catch((err) => {
       res.status(403);
-      res.send("403");
+      res.send("User is not allowed to solve this quiz.");
     });
   });
 

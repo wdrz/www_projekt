@@ -36,7 +36,7 @@ body {
   min-height: 180px;
 }
 
-.frameAdd {
+#frameAdd {
   /*background-color: white;*/
   top: auto;
   padding: 40px;
@@ -154,7 +154,7 @@ footer {
   box-sizing: border-box;
 }
 
-#wstep {
+#wstep, #intro {
   padding-bottom: 20px;
   margin-bottom: 0;
   font-style: italic;
