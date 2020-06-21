@@ -19,7 +19,7 @@ block content
           if questions[n].avg_time
             p Average time of correct answer: #{Math.floor(questions[n].avg_time / 100)/10}s
           else
-            p This question wasn't answered yet!
+            p This question hasn't been answered yet!
           p Your answer: #{stats[n].answer}
           p Your time: #{Math.floor(stats[n].timeSpent / 100)/10}s
           if !stats[n].ok

@@ -5,11 +5,12 @@ html
     link(rel='stylesheet', href='/static/stylesheets/main.css')
   body
     block user
-      #user
-        | user: #{user} &#8226; 
-        a(href="/logout") logout
-        |  &#8226; 
-        a(href="/change") change password
+      if user
+        #user
+          | user: #{user} &#8226; 
+          a(href="/logout") logout
+          |  &#8226; 
+          a(href="/change") change password
     
     block content
     footer Witold Drzewakowski

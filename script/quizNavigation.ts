@@ -8,7 +8,6 @@ fetch(`${window.location.href}/json`, {
 }).then(async (response) => {
 
 const { questions: QUESTS, quiz: QUIZ, login: LOGIN } = JSON.parse(await response.json());
-console.log(QUESTS, QUIZ);
 
 document.getElementById("liczbaPytan").innerText = QUESTS.length.toString();
 document.getElementById("title").innerText = QUIZ.title;
@@ -185,7 +184,6 @@ document.getElementById("btnHalt").addEventListener("click", () => {
 
 
 initChosenQuiz().then(() => {
-  console.log("zakonczono quiz");
   fetch('', {
     method: 'post',
     redirect: 'follow',
@@ -196,15 +194,16 @@ initChosenQuiz().then(() => {
     body: JSON.stringify(STATS)
   }).then(async (res) => {
     if (res.ok) {
-      console.log("fetch successful");
       window.location.reload(true);
     } else {
       showErrorMessage(await res.text());
       console.log(res);
-      // console.log(await res.text());
       console.log("fetch unsuccessful");
     }
-  }).catch(() => console.log("fetch failed"))
+  }).catch(() => {
+    showErrorMessage("Fetch failed");
+    console.log("fetch failed");
+  })
   }).catch(() => window.location.href = "/");
 
 })

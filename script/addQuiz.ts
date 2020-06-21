@@ -101,7 +101,6 @@ addQuestion();
 
 (document.getElementById("form") as HTMLButtonElement).addEventListener("submit", (ev) => {
   if (!validateForm()) {
-    console.log("preventing...");
     ev.preventDefault();
   }
 });

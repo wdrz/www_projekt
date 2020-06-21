@@ -45,8 +45,10 @@ async function run() : Promise<void> {
   app.post("/login", csrfProtection, attachDB(loginCheck, db));
   app.post("*", (req, res, next) => {
     if (!req.session.login) {
-      res.status(404);
-      res.send("404");
+      res.status(403);
+      res.render("error", {
+        title: "403: Forbidden", err: ""
+      });
     } else {
       next();
     }
@@ -69,12 +71,13 @@ async function run() : Promise<void> {
 
 
   app.get('/logoutall', (req, res) => {
-    console.log(sessionStore.db);
     sessionStore.db.all(`SELECT * FROM sessions;`, (err : Error, rows : any[]) => {
       if (err) {
         console.log(err);
         res.status(400);
-        res.send("400");
+        res.render("error", {
+          title: "400: Bad request", err: "", user: req.session.login
+        });
         return;
       }
       const login: string = req.session.login;
@@ -105,7 +108,9 @@ async function run() : Promise<void> {
     const quizId = Number(req.params.p1);
     ql.getResult(quizId, req.session.user_id).then(() => {
       res.status(403);
-      res.send("403");
+      res.render("error", {
+        title: "403: Forbidden", err: "", user: req.session.login
+      });
     }).catch(async () => {
       const questions = await ql.getQuestionsByQuizId(quizId, false);
       const quiz = await ql.getQuizById(quizId);
@@ -113,7 +118,9 @@ async function run() : Promise<void> {
       res.json(JSON.stringify({questions, quiz, login: req.session.login}));
     }).catch(() => {
       res.status(404);
-      res.send("404");
+      res.render("error", {
+        title: "404: Page not found", err: "", user: req.session.login
+      });
     });
   });
 
@@ -136,7 +143,9 @@ async function run() : Promise<void> {
       }).catch((err) => {
         console.log(err);
         res.status(404);
-        res.send(err);
+        res.render("error", {
+          title: "404: Page not found", err, user: req.session.login
+        });
       });
     });
   });
@@ -144,13 +153,9 @@ async function run() : Promise<void> {
   app.get("/stats", csrfProtection, async (req, res) => {
     const quizes: Quiz[] = await ql.get_all_quiz_ids();
     const stats: Result[][] = [];
-    console.log(quizes);
     for (const quiz of quizes) {
-      console.log(quiz.title);
-      console.log(await ql.getBestResultsToQuiz(quiz.id));
       stats.push(await ql.getBestResultsToQuiz(quiz.id));
     }
-    console.log(stats);
     res.render('generalStats', {
       stats, quizes,
       user: req.session.login
@@ -181,20 +186,17 @@ async function run() : Promise<void> {
       (err) => {
         console.log(err);
         res.status(400);
-        // res.send("400");
-        res.render("addQuiz", {
-          ...req.body,
-          error: "Wystąpił błąd bazy danych. Popraw dane i spróbuj ponownie."
+        res.render("error", {
+          title: "A database error occured", err, user: req.session.login
         });
       });
   });
 
 
   app.post("/quiz/:p1(\\w+)", async (req, res) => {
-    console.log("RECEIVED DATA");
+    console.log("Received quiz answers. Validating...");
     ql.canBeAccessed(Number(req.params.p1), req.session.user_id).then(() => {
-      console.log("RECEIVED DATA quiz " + req.params.p1);
-      console.log(JSON.stringify(req.body));
+      console.log("...validated.");
       try {
         const stats = req.body as AnswerToOne[];
         ql.submit_result(stats, req.session.user_id, Number(req.params.p1),
@@ -219,7 +221,9 @@ async function run() : Promise<void> {
 
   app.use((req, res, next) => {
     res.status(404);
-    res.send("404");
+    res.render("error", {
+      title: "404: Page not found", err: "", user: req.session.login
+    });
   });
 
   app.listen(port, () => {

@@ -15,7 +15,7 @@ export class QuizList {
       this.#db.all(phrase, replace, (err, rows) => {
         if (err) {
           console.log(err);
-          reject('DB Error');
+          reject('DB Error: ' + err);
         } else {
           resolve(rows);
         }
@@ -28,29 +28,13 @@ export class QuizList {
       this.#db.run(phrase, replace, (err) => {
         if (err) {
           console.log(err);
-          reject('DB Error');
+          reject('DB Error: ' + err);
         } else {
           resolve();
         }
       });
     });
   }
-
-  /*
-  async query_db_non_empty(phrase: string, replace: any[]): Promise<any> {
-    return new Promise<any>((resolve, reject) => {
-      this.#db.all(phrase, replace, (err, rows) => {
-        if (err) {
-          console.log(err);
-          reject('DB Error');
-        } else if (rows.length === 0) {
-          reject('Empty');
-        } else {
-          resolve(rows);
-        }
-      });
-    });
-  }*/
 
   async add_question(quest : Question, quizId: number) : Promise<void> {
     return new Promise<void>((resolve, reject) => {
@@ -74,7 +58,7 @@ export class QuizList {
         [quiz.id || null, quiz.title, quiz.intro], (err) => {
           if (err) {
             console.log(err);
-            reject('DB Error: quiz could not be added');
+            reject('DB Error: quiz could not be added. ' + err);
           } else {
             console.log('DB: Added quiz ' + quiz.title);
             resolve();
@@ -116,7 +100,6 @@ export class QuizList {
           } else if (rows.length === 0) {
             reject('No such quiz');
           } else {
-            console.log(rows);
             resolve(rows[0]);
           }
         });
@@ -134,7 +117,6 @@ export class QuizList {
             console.log(err);
             reject('DB Error while getting questions for a quiz.');
           } else {
-            console.log(rows);
             resolve(rows);
           }
         });
@@ -149,9 +131,6 @@ export class QuizList {
         WHERE user_id = ?
         AND quiz_id = ?;
         `, [userId, quizId], (err, rows) => {
-          console.log("ROWS");
-          console.log(rows);
-          console.log(quizId, userId);
           if (err) {
             console.log(err);
             reject('DB Error getResult.');
@@ -184,7 +163,7 @@ export class QuizList {
           if (err) {
             console.log(err);
             this.#db.run(`ROLLBACK`);
-            reject('DB Error: result could not be added');
+            reject('DB Error: result could not be added. ' + err);
           } else {
             for (const ans of stats) {
               this.insert_db(`
@@ -192,7 +171,7 @@ export class QuizList {
                 VALUES (?, ?, ?, ?, ?, ?);`, [res.id, ans.questionId, res.quiz_id, ans.timeSpent, ans.answer, ans.ok]
               ).catch((err2) => {
                 console.log(err2);
-                reject('DB Error: result could not be added');
+                reject('DB Error: result could not be added. ' + err);
                 this.#db.run(`ROLLBACK`);
                 return;
               });

@@ -54,10 +54,8 @@ export const loginCheck: MiddlewareDB = (req: express.Request, res: express.Resp
 
 export const loginWall = (req: express.Request, res: express.Response, next: express.NextFunction) => {
   if (!req.session.login) {
-    console.log("login needed");
     res.render("login", {csrfToken: req.csrfToken()});
   } else {
-    console.log("sciaganie zasobu");
     next();
   }
 };
